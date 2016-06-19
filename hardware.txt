@@ -1,8 +1,0 @@
-CPU: 2 cores, Intel(R) Core(TM)2 Duo CPU P8400 @ 2.26GHz
-L1d cache:             32K
-L1i cache:             32K
-L2 cache:              3072K
-
-frequency scaling governor: ondemand
-
-memory: 4GB DDR2 @ 666MHz
