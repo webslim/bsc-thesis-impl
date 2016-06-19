@@ -38,7 +38,6 @@ to generate everything:
 ========================
 
 directories:
-./archive          : a place to store old plots
 ./comparison       : a place to store one-page comparisons for each function
 ./bin              : contains compiled benchmarks
 ./output           : contains raw output
