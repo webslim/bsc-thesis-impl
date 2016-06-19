@@ -1,0 +1,14 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+filter	filter.cpp	/^static void filter(double *in, double *out, double *kernel,$/;"	f	file:
+filter2	filter.cpp	/^void filter2(double *in, double *out, double *kernel, int width, int height,$/;"	f
+filter2_blockstride	filter.cpp	/^static void (*filter2_blockstride[STRIDE_MAX][BLOCK_MAX]) (double *in, double *out,$/;"	v	file:
+filter2_stride	filter.cpp	/^static void (*filter2_stride[STRIDE_MAX]) (double *in, double *out, int width,$/;"	v	file:
+filter_blockstride	filter.cpp	/^void filter_blockstride(double* in, double* out, double *kernel, int width,$/;"	f
+filter_class	filter.cpp	/^static void filter_class(ArrayAccess in, double *out, double *kernel,$/;"	f	file:
+filter_stride	filter.cpp	/^static void filter_stride(double* in, double* out, double *kernel,$/;"	f	file:
+test_filter	filter.cpp	/^static void test_filter(double *in, double *in_copy, double *out) {$/;"	f	file:

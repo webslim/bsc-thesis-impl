@@ -1,0 +1,165 @@
+This benchmark program and collection of scripts
+tests different options of implementing strided and blockstrided access
+to arrays for numerical applications and compares the performance
+for different functions, compilers and compiler optimizations.
+Plots are generated for easy comparison.
+
+0. Contents
+===========
+
+1. Software used
+2. Quickstart
+3. Files and directories
+4. Benchmark details
+5. Plot details
+6. Remarks
+7. Bugs
+8. Hardware used
+9. License
+
+
+1. Software used
+================
+
+see file ./versions.txt
+
+
+2. Quickstart
+=============
+
+to generate everything:
+./start-here.sh
+
+
+3. Files and directories
+========================
+
+directories:
+./archive          : a place to store old plots
+./comparison       : a place to store one-page comparisons for each function
+./bin              : contains compiled benchmarks
+./output           : contains raw output
+./output_filtered  : contains output filtered by function and access
+./output_processed : contains filtered output prepared for gnuplot
+./plots            : contains generated plots
+./src              : source code of benchmark
+
+scripts:
+./compare.sh       : create side by side view of plots for each function
+./filter_output.sh : filter data in ./output
+./make.sh          : compile benchmark with different compilers and flags
+./plot.sh          : process filtered output and plot
+./run.sh           : run benchmarks and collect output
+./start-here.sh    : run all scripts in the correct order
+
+
+4. Benchmark details
+====================
+
+The access methods are applied to input and (where applicable) output,
+using the same configuration.
+The result of functions returning a single value are added to a container
+with O(1) for appending (<forward_list>) to prevent the compiler from
+optimizing away the calculation.
+A backup of the randomized input is made for functions that overwrite it,
+and restored afterwards.
+A separate benchmark binary is created for each function tested.
+Before each run, the input array is filled with random values.
+Multiple runs are supported with parameter -n <runs>.
+
+Tested parameters are:
+strided access: stride 2, 4, 8
+blockstrided access: stride 4 + block size 2, stride 8 + block size 4
+The "linear" function is included as a (rough) comparison with linear
+access of the same input size as the equivalent strided/blockstrided 
+access; it is of the same effective size, but not the same input.
+When using SSE, the checks in alignment.h are used to decide if multiple
+values can be loaded and stored at the same time.
+
+Tested variants are:
+- original function with copying of input and output (where applicable)
+- striding implemented in C function body
+- blockstriding implemented in C function body
+- C++ version with minimal changes, using tynename template
+Optional, not everywhere: enable using -DCLASS compiler flag (see make.sh)
+- (C++ version using a class hierarchy and virtual functions)
+(this was tested at the beginning of my work, as a comparison)
+
+functions in src/functions, mostly adapted from b.hess:
+- contrast       : normalize range of values in an image
+- contrast_sse   : contrast making use of SSE (double precision)
+- copy_dummy     : make a copy of the array
+- dft_512        : small dft (discrete fourier transform) with input size 1024
+- dft_1048576    : dft with input size 2097152
+- filter         : generic 2d convolution with a kernel of size 3x3
+- fir            : simple FIR filter that computes the average of index i and i+1
+- fir_sse_double : like fir, using SSE double precision operations
+- fir_sse_float  :  like fir, using SSE single precision operations
+- quicksort      : recursive in-place sorting
+- rec_mergesort  : recursive mergesort, needs a temporary array.
+                   (does not overwrite input, output is to a third array)
+- rec_reduce     : recursive sum reduction of an array
+- reduce         : sum reduction of an array
+- scan           : prefix sum of a vector
+- sse_mvm        : matrix vector multiplication: y = x * M + y, 2x2
+
+5. Plot details
+===============
+The plot show clustered bars for each input size.
+Around the top of the bar an error range is shown. The boundaries are computed as suggested in
+http://users.elis.ugent.be/~leeckhou/papers/oopsla07-stat.pdf, Section 3.2.2,
+with a confidence level of 95%, assuming a t-distribution.
+
+6. Remarks
+==========
+
+In quicksort.cpp, the same memcpy of the input array is made in each test
+to avoid overwriting the input.
+The function test code makes heavy use of macros in src/macros.h
+to avoid rewriting much of the test.
+
+Necessary changes for enhanced version of original functions:
+The iterator/class versions of iterative functions are very easy to write:
+just prepend the original function with a template and adjust the
+parameter list. If pointer arithmetic is to be used, the parameter must not
+be a reference.
+Recursive functions need a little more work: function names have to be replaced.
+
+7. Bugs
+=======
+
+- clang SSE support (in my setup) does not include _mm_set_pd1, only _mm_set_pd
+
+
+8. Hardware used
+================
+
+see ./hardware.txt
+
+
+9. License
+==========
+
+Some of the tested functions are generated by Spiral, see the source code
+for copyright information.
+
+The following should be included in each file,
+but I did not want to duplicate it everytime:
+
+    (Copyright 2015 Selim Arslanbek)
+    This file is part of array-benchmark.
+
+    array-benchmark is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    array-benchmark is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with array-benchmark.  If not, see <http://www.gnu.org/licenses/>.
+
+The GPL is included in the file ./COPYING.
