@@ -9,3 +9,5 @@
  GNU grep        | 2.21
  GNU gawk        | 4.0.2
  texlive         | 2015
+
+ GNU Octave      | 4.0.2

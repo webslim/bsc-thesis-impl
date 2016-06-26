@@ -56,6 +56,9 @@ scripts:
 ./filter_output.sh : filter data in ./output
 ./make.sh          : compile benchmark with different compilers and flags
 ./plot.sh          : process filtered output and plot
+./ratios.sh        : creates a table of ratios for one input size and
+                     prints the geometical means
+./ratios.m         : octave script for ratios.sh
 ./run.sh           : run benchmarks and collect output
 ./start-here.sh    : run all scripts in the correct order
 
