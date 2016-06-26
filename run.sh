@@ -4,7 +4,7 @@
 
 RUNS="10" # number of test runs, update T-test table in plot.sh for values > 10
 # run only specific versions of the benchmark
-RUN_FILTER="dft*"
+RUN_FILTER="*"
 
 rm output/*
 for benchmark in bin/${RUN_FILTER}; do

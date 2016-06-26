@@ -45,6 +45,7 @@ directories:
 ./comparison       : a place to store one-page comparisons for each function
 ./bin              : contains compiled benchmarks
 ./output           : contains raw output
+./output-archive   : contains the results referred to in the thesis
 ./output_filtered  : contains output filtered by function and access
 ./output_processed : contains filtered output prepared for gnuplot
 ./plots            : contains generated plots
