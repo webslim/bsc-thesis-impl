@@ -8,4 +8,5 @@
 ./filter_output.sh
 ./plot.sh
 ./compare.sh
+./ratios.sh
 
