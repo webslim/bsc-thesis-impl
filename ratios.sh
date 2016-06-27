@@ -1,6 +1,6 @@
 #!/bin/sh
 FILTER="-gcc-Ofast-"
-SIZE="160000"
+SIZE="800000"
 
 for data in output_processed/*$FILTER*; do
 	size=$SIZE
