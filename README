@@ -49,7 +49,7 @@ directories:
 ./output_filtered  : contains output filtered by function and access
 ./output_processed : contains filtered output prepared for gnuplot
 ./plots            : contains generated plots
-./ratios           : contains results of ./ratios.sh
+./ratios           : contains results of ./ratios?.sh
 ./src              : source code of benchmark
 
 scripts:
@@ -57,7 +57,8 @@ scripts:
 ./filter_output.sh : filter data in ./output
 ./make.sh          : compile benchmark with different compilers and flags
 ./plot.sh          : process filtered output and plot
-./ratios.sh        : computes performance ratios for each function
+./ratios.sh        : compute performance ratios (baseline linear)
+./ratios2.sh        : compute performance ratios (baseline manual)
 ./run.sh           : run benchmarks and collect output
 ./start-here.sh    : run all scripts in the correct order
 

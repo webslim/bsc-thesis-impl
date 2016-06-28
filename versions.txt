@@ -1,13 +1,12 @@
  software        | version
 -----------------+-------------------------------------
- Linux           | 4.2.3 SMP PREEMPT x86_64, with ASLR
+ Linux           | 4.5.7 SMP PREEMPT x86_64, with ASLR
  gcc             | 4.9.3, with PIE patches
- clang           | 3.5.0 (tags/RELEASE_350/final)
- GNU bash        | 4.3.39(1)-release
- gnuplot         | 5.0 patchlevel 1
+ clang           | 3.7.1 (tags/RELEASE_371/final)
+ GNU bash        | 4.3.42(1)-release
+ gnuplot         | 5.0 patchlevel 3
  GNU coreutils   | 8.23
- GNU grep        | 2.21
- GNU gawk        | 4.0.2
+ GNU grep        | 2.25
+ GNU gawk        | 4.1.3
  texlive         | 2015
-
  GNU Octave      | 4.0.2
