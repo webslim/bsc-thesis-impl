@@ -17,10 +17,10 @@ function sort_functions {
    remaining=`        echo ${remaining} | tr ' ' '\n' | grep -v dynamic`
    sorted="${sorted} `echo ${remaining} | tr ' ' '\n' | grep    manual`"
    remaining=`        echo ${remaining} | tr ' ' '\n' | grep -v manual`
-   sorted="${sorted} `echo ${remaining} | tr ' ' '\n' | grep    class`"
-   remaining=`        echo ${remaining} | tr ' ' '\n' | grep -v class`
    sorted="${sorted} `echo ${remaining} | tr ' ' '\n' | grep    copy`"
    remaining=`        echo ${remaining} | tr ' ' '\n' | grep -v copy`
+   sorted="${sorted} `echo ${remaining} | tr ' ' '\n' | grep    class`"
+   remaining=`        echo ${remaining} | tr ' ' '\n' | grep -v class`
 
    [ ! -z "${remaining}" ] && sorted="${sorted} ${remaining}"
    echo ${sorted}

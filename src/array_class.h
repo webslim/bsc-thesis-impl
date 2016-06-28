@@ -14,6 +14,9 @@ public:
    virtual double& operator[](int i) {
       return array[i];
    }
+	ArrayAccess operator+(int offset) {
+		return ArrayAccess(array + offset);
+	}
 };
 
 // strided access
@@ -27,6 +30,9 @@ public:
    double& operator[](int i) {
       return array[i*stride];
    }
+	StridedArrayAccess operator+(int offset) {
+		return StridedArrayAccess(array + offset * stride, stride);
+	}
 };
 
 // blockstrided access
@@ -40,6 +46,11 @@ public:
    double& operator[](int i) {
       return array[(i/block)*stride + i%block];
    }
+	BlockStridedArrayAccess operator+(int offset) {
+      return BlockStridedArrayAccess(
+            array + (offset/block*stride + offset%block),
+            stride, block);
+	}
 };
 
 #endif

@@ -17,13 +17,23 @@ for data in output_processed/*$FILTER*; do
 	dynamic=`grep "^$size," < "$data" | cut -d, -f6`
 	manual=` grep "^$size," < "$data" | cut -d, -f8`
 	copy=`   grep "^$size," < "$data" | cut -d, -f10`
+	class=`  grep "^$size," < "$data" | cut -d, -f12`
 	if [ -z $copy ]; then
-		copyratio=-1.0
+		copyratio=0.0
 	else
 		copyratio=$copy/$manual
 	fi
-	echo | awk "{printf \"%f,%f,%f,%f\n\", \
-			$linear/$manual, $copyratio, $dynamic/$manual, $static/$manual}" \
+	if [ -z $class ]; then
+		classratio=0.0
+	else
+		classratio=$class/$manual
+	fi
+	echo | awk "{printf \"%f,%f,%f,%f,%f\n\", \
+			$linear/$manual, \
+			$copyratio, \
+			$classratio, \
+			$dynamic/$manual, \
+			$static/$manual}" \
 			>> ratios/octave-${func}.csv \
 			|| exit 1
 done
@@ -32,6 +42,7 @@ echo "\
 Function,\
 linear,\
 copy,\
+class,\
 dynamic,\
 static\
 " > ratios/SUMMARY.csv
@@ -53,4 +64,5 @@ EOF
 	cat $outfile >> ratios/SUMMARY.csv
 done
 
+sed -E 's/\<0.00\>/-/g' < ratios/SUMMARY.csv > ratios/SUMMARY-filtered.csv
 

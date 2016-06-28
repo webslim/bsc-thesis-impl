@@ -10,7 +10,7 @@ rm bin/*
 #    this is the old way to let the program compute an average time.
 #    the script are now updated to support multiple separate runs.
 #    input is not randomized again when repeating.
-OPTS="-DCLASS -DREPETITIONS=5"
+OPTS="-DCLASS -DREPETITIONS=1"
 
 GCC="g++ -std=c++11 -Wall -Wno-uninitialized -march=native -g ${OPTS}"
 CLANG="clan${GCC}"
@@ -19,10 +19,9 @@ GCC+=" -Wno-unused-but-set-variable"
 SRC="src/benchmark.cpp"
 OUT="bin/"
 FLAGS="Ofast"
-#FLAGS="O2"
-FUNCTIONS="rec_mergesort"
+FUNCTIONFILTER=""
 
-for func in src/functions/*${FUNCTIONS}*.h; do
+for func in src/functions/*${FUNCTIONFILTER}*.h; do
 	func_name=${func##*/}
 	func_name=${func_name%.h}
 	for flag in ${FLAGS}; do
