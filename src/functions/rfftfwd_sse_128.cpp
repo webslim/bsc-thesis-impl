@@ -4,7 +4,7 @@
 #include <emmintrin.h>
 #include <pmmintrin.h>
 
-void spiral_rfftfwd_double_128(const double *src, double *dst ) {
+void rfftfwd_sse_128(const double *src, double *dst ) {
     {__m128d a, a01, a02, a11, a2, a21, a3, a31, a4, a41, a5, a51, a6, a61, a7, a71, a8, a81, a9, a91, s, s01
             , s02, s03, s04, s05, s06, s07, s08, s09, s0a, s0b, s0c, s0d, s0e, s0f, s0g, s0h, s0i, s0j, s0k, s0l, s0m, s0n
             , s0o, s0p, s0q, s0r, s0s, s0t, s0u, s0v, s0w, s11, s12, s13, s14, s15, s16, s17, s18, s19, s1a, s1b, s1c, s1d
@@ -752,7 +752,7 @@ void spiral_rfftfwd_double_128(const double *src, double *dst ) {
 }
 
 // < tmp.c sed -E 's/(src|dst) *\+ *([0-9]*)/\1 + (\2 * stride) /' > tmp_stride.c
-void spiral_rfftfwd_double_128_stride(const double *src, double *dst, int stride) {
+void rfftfwd_sse_128_stride(const double *src, double *dst, int stride) {
     {__m128d a, a01, a02, a11, a2, a21, a3, a31, a4, a41, a5, a51, a6, a61, a7, a71, a8, a81, a9, a91, s, s01
             , s02, s03, s04, s05, s06, s07, s08, s09, s0a, s0b, s0c, s0d, s0e, s0f, s0g, s0h, s0i, s0j, s0k, s0l, s0m, s0n
             , s0o, s0p, s0q, s0r, s0s, s0t, s0u, s0v, s0w, s11, s12, s13, s14, s15, s16, s17, s18, s19, s1a, s1b, s1c, s1d
@@ -1501,7 +1501,7 @@ void spiral_rfftfwd_double_128_stride(const double *src, double *dst, int stride
 
 
 // < tmp.c sed -E 's/(src|dst) *\+ *([0-9]*)/\1 + ((\2 \/ block * stride) + (\2 % block)) /' > tmp_blockstrided.c
-void spiral_rfftfwd_double_128_blockstride(const double *pSrc, double *pDst, int stride, int block) {
+void rfftfwd_sse_128_blockstride(const double *pSrc, double *pDst, int stride, int block) {
     const double  *src = pSrc; 
     double        *dst = pDst;
     
@@ -2253,7 +2253,7 @@ void spiral_rfftfwd_double_128_blockstride(const double *pSrc, double *pDst, int
 
 // iterator version
 template <typename in_iter, typename out_iter>
-void spiral_rfftfwd_double_128_iterator(in_iter& src, out_iter& dst) {
+void rfftfwd_sse_128_iterator(in_iter& src, out_iter& dst) {
     {__m128d a, a01, a02, a11, a2, a21, a3, a31, a4, a41, a5, a51, a6, a61, a7, a71, a8, a81, a9, a91, s, s01
             , s02, s03, s04, s05, s06, s07, s08, s09, s0a, s0b, s0c, s0d, s0e, s0f, s0g, s0h, s0i, s0j, s0k, s0l, s0m, s0n
             , s0o, s0p, s0q, s0r, s0s, s0t, s0u, s0v, s0w, s11, s12, s13, s14, s15, s16, s17, s18, s19, s1a, s1b, s1c, s1d
@@ -3002,44 +3002,44 @@ void spiral_rfftfwd_double_128_iterator(in_iter& src, out_iter& dst) {
 
 static void test(double *in, double *copy, double *out) {
    ITERATION_VARS
-#define NAME "spiral_rfftfwd_double_128"
+#define NAME "rfftfwd_sse_128"
    input_size = 128;
 
    ITERATE_STRIDES(
       // original version, linear access
       print_start(NAME, "linear", input_size, stride, 0);
-      RUN_TEST( spiral_rfftfwd_double_128(in, out); )
+      RUN_TEST( rfftfwd_sse_128(in, out); )
       // ... copy
       print_start(NAME, "copy-strided", input_size, stride, 0);
       RUN_TEST( stride_copy_in(in, copy, new_size, stride);
-                spiral_rfftfwd_double_128(copy, out);
+                rfftfwd_sse_128(copy, out);
                 stride_copy_out(out, copy, new_size, stride); )
       // ... manual C
       print_start(NAME, "manual-strided", input_size, stride, 0);
-      RUN_TEST( spiral_rfftfwd_double_128_stride(in, out, stride); )
+      RUN_TEST( rfftfwd_sse_128_stride(in, out, stride); )
 #ifdef CLASS
 #endif
       // ... iterator template dynamic
       print_start(NAME, "iterator-strided-dynamic", input_size, stride, 0);
       Strided<double> inS(in, stride);
       Strided<double> outS(out, stride);
-      RUN_TEST( spiral_rfftfwd_double_128_iterator(inS, outS); )
+      RUN_TEST( rfftfwd_sse_128_iterator(inS, outS); )
       // ... iterator template static
       print_start(NAME, "iterator-strided-static", input_size, stride, 0);
-      RUN_CSTRIDED_TEST_DOUBLE( spiral_rfftfwd_double_128_iterator(inCS COMMA outCS); )
+      RUN_CSTRIDED_TEST_DOUBLE( rfftfwd_sse_128_iterator(inCS COMMA outCS); )
 
       ITERATE_BLOCKSIZES(
          // original version, linear access
          print_start(NAME, "linear", input_size, stride, block);
-         RUN_TEST( spiral_rfftfwd_double_128(in, out); )
+         RUN_TEST( rfftfwd_sse_128(in, out); )
          // ... copy
          print_start(NAME, "copy-blockstrided", input_size, stride, block);
          RUN_TEST( blockstride_copy_in(in, copy, new_size, stride, block);
-                   spiral_rfftfwd_double_128(copy, out);
+                   rfftfwd_sse_128(copy, out);
                    blockstride_copy_out(out, copy, new_size, stride, block); )
          // ... manual C
          print_start(NAME, "manual-blockstrided", input_size, stride, block);
-         RUN_TEST( spiral_rfftfwd_double_128_blockstride(in, out, stride, block); )
+         RUN_TEST( rfftfwd_sse_128_blockstride(in, out, stride, block); )
 #ifdef CLASS
 #endif
          // ... iterator template dynamic
@@ -3047,11 +3047,11 @@ static void test(double *in, double *copy, double *out) {
             input_size, stride, block);
          BlockStrided<double> inBS(in, stride, block);
          BlockStrided<double> outBS(out, stride, block);
-         RUN_TEST( spiral_rfftfwd_double_128_iterator(inBS, outBS); )
+         RUN_TEST( rfftfwd_sse_128_iterator(inBS, outBS); )
          // ... iterator template static
          print_start(NAME, "iterator-blockstrided-static",
                input_size, stride, block);
-         RUN_CBLOCKSTRIDED_TEST_DOUBLE( spiral_rfftfwd_double_128_iterator(inCBS COMMA outCBS); )
+         RUN_CBLOCKSTRIDED_TEST_DOUBLE( rfftfwd_sse_128_iterator(inCBS COMMA outCBS); )
       )
    )
 #undef NAME

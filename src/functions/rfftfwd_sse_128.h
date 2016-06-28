@@ -1,5 +1,5 @@
-#ifndef SPIRAL_RFFTFWD_DOUBLE_128
-#define SPIRAL_RFFTFWD_DOUBLE_128
+#ifndef RFFTFWD_SSE_128
+#define RFFTFWD_SSE_128
 
 #define FP_TYPE double
 
@@ -10,7 +10,7 @@
 #include "../print.h"
 
 static void test(double *in, double *copy, double *out);
-#include "spiral_rfftfwd_double_128.cpp"
+#include "rfftfwd_sse_128.cpp"
 
 #endif
 
