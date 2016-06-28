@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # this script converts the filtered results into a suitable
-# form and plots them
+# form and plots them if $1 != "noplot"
 
 rm output_processed/*
 rm plots/*
@@ -89,13 +89,13 @@ for file in output_filtered/*.csv; do
       echo "${LINE}" >> "${OUTFILE}"
    done
 
+	[ "$1" == "noplot" ] && continue
+
    PLOTFILE="${file#*/}"
    PLOTFILE="plots/${PLOTFILE%.csv}.pdf"
    echo "[plotting] ${PLOTFILE}"
    J="`echo ${HEAD} | tr ',' ' ' |  wc -w`"
-
    YMAX=`round_y_max "${file}"`
-
    gnuplot > "${PLOTFILE}" <<EOF
 set datafile separator ","
 set term pdfcairo font "Liberation Mono,10"
@@ -116,5 +116,5 @@ plot for [i=2:${J}:2] '${OUTFILE}' using i:i+1:xticlabels(1) ti columnheader(i)
 EOF
 done
 
-echo "plots are in plots/"
+[ "$1" == "noplot" ] || echo "plots are in plots/"
 
