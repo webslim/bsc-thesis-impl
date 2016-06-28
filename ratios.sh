@@ -18,7 +18,7 @@ for data in output_processed/*$FILTER*; do
 	manual=` grep "^$size," < "$data" | cut -d, -f8`
 	copy=`   grep "^$size," < "$data" | cut -d, -f10`
 	if [ -z $copy ]; then
-		copyratio=0.0
+		copyratio=-1.0
 	else
 		copyratio=$copy/$manual
 	fi

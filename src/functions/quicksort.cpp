@@ -129,6 +129,39 @@ namespace {
    }
 }
 
+#ifdef CLASS
+namespace {
+   void swap_class(ArrayAccess& A, int a, int b) {
+      double tmp = A[a];
+      A[a] = A[b];
+      A[b] = tmp;
+   }
+
+   int partition_class(ArrayAccess& A, int lo, int hi) {
+      int pivotIndex = lo + (hi-lo)/2;
+      double pivotValue = A[pivotIndex];
+      swap_class(A, pivotIndex, hi);
+      int storeIndex = lo;
+      for (int i = lo; i < hi; ++i) {
+         if (A[i] < pivotValue) {
+            swap_class(A, i, storeIndex);
+            ++storeIndex;
+         }
+      }
+      swap_class(A, storeIndex, hi);
+      return storeIndex;
+   }
+
+   void quicksort_class(ArrayAccess& A, int lo, int hi) {
+      if (lo < hi) {
+         int p = partition_class(A, lo, hi);
+         quicksort_class(A, lo, p-1);
+         quicksort_class(A, p+1, hi);
+      }
+   }
+}
+#endif
+
 static void test(double *in, double *copy, double *out) {
    ITERATION_VARS
 #define NAME "quicksort"
@@ -157,6 +190,15 @@ static void test(double *in, double *copy, double *out) {
             MEMCPY;
             quicksort_stride(copy, 0, new_size-1, stride);
          )
+#ifdef CLASS
+			// class
+         print_start(NAME, "class-strided", input_size, stride, 0);
+			StridedArrayAccess strided_in(copy, stride);
+         RUN_TEST(
+            MEMCPY;
+            quicksort_class(strided_in, 0, new_size-1);
+         )
+#endif
          // iterator dynamic
          print_start(NAME, "iterator-strided-dynamic", input_size, stride, 0);
          Strided<double> inS(copy, stride);
@@ -191,6 +233,15 @@ static void test(double *in, double *copy, double *out) {
                MEMCPY;
                quicksort_blockstride(copy, 0, new_size-1, stride, block);
             )
+#ifdef CLASS
+				// class
+				print_start(NAME, "class-blockstrided", input_size, stride, block);
+				BlockStridedArrayAccess blockstrided_in(copy, stride, block);
+				RUN_TEST(
+					MEMCPY;
+					quicksort_class(blockstrided_in, 0, new_size-1);
+				)
+#endif
             // iterator dynamic
             print_start(NAME, "iterator-blockstrided-dynamic", input_size,
                   stride, block);

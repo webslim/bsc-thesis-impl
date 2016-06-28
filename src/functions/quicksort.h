@@ -6,6 +6,7 @@
 #include <cstring>
 #include "../copy_functions.h"
 #include "../iterators.h"
+#include "../array_class.h"
 #include "../macros.h"
 #include "../print.h"
 
