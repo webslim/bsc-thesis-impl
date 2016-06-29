@@ -7,6 +7,6 @@
 ./run.sh
 ./filter_output.sh
 ./plot.sh
-#./compare.sh
+./compare.sh
 ./ratios.sh
 

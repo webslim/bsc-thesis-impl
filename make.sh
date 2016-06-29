@@ -3,7 +3,7 @@
 # this script compiles the benchmark programs with different
 # compilers and optimization flags
 
-rm bin/*
+rm -v bin/*
 
 # -DCLASS: build and test access classes with virtual functions
 # -DREPETITIONS=<n> to collect an average over n repetitions in one run
@@ -19,21 +19,22 @@ GCC+=" -Wno-unused-but-set-variable"
 SRC="src/benchmark.cpp"
 OUT="bin/"
 FLAGS="Ofast"
-FUNCTIONFILTER=""
+FUNCTION_FILTER=""
 
-for func in src/functions/*${FUNCTIONFILTER}*.h; do
+for func in src/functions/*${FUNCTION_FILTER}*.h; do
 	func_name=${func##*/}
 	func_name=${func_name%.h}
 	for flag in ${FLAGS}; do
 		GCC_CMD="${GCC} -${flag} -o ${OUT}${func_name}-gcc-${flag} ${SRC} -include ${func}"
 		echo "${GCC_CMD}"
-		${GCC_CMD}
+		${GCC_CMD} &
 		CLANG_CMD="${CLANG} -${flag} -o ${OUT}${func_name}-clang-${flag} ${SRC} -include ${func}"
 		echo "${CLANG_CMD}"
-		${CLANG_CMD}
+		${CLANG_CMD} &
+		wait # 2 compilations in parallel
 	done
 done
 
-strip "${OUT}"*
+strip -v "${OUT}"*
 echo "all compilations done"
 
