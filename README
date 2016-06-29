@@ -109,6 +109,7 @@ functions in src/functions, mostly adapted from b.hess:
                    (does not overwrite input, output is to a third array)
 - rec_reduce     : recursive sum reduction of an array
 - reduce         : sum reduction of an array
+- rfftfwd_sse_128: Spiral-generated FFT for 128 elements using SSE
 - scan           : prefix sum of a vector
 - sse_mvm        : matrix vector multiplication: y = x * M + y, 2x2
 
