@@ -6,7 +6,7 @@
 #include <emmintrin.h>
 #include "../alignment.h"
 #ifdef CLASS
-   #include "../array_class.h"
+#include "../array_class.h"
 #endif
 #include "../copy_functions.h"
 #include "../iterators.h"

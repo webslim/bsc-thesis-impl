@@ -3440,12 +3440,11 @@ static void test(double *in, double *copy, double *out) {
       // original version, linear access
       print_start(NAME, "linear", input_size, stride, 0);
       RUN_TEST( dft_512(in, out); )
-/* copy has horrible performance and dwarves the other results */
-//      // ... copy
-//      print_start(NAME, "copy-strided", input_size, stride, 0);
-//      RUN_TEST( stride_copy_in(in, copy, new_size, stride);
-//                dft_512(copy, out);
-//                stride_copy_out(out, copy, new_size, stride); )
+      // ... copy
+      print_start(NAME, "copy-strided", input_size, stride, 0);
+      RUN_TEST( stride_copy_in(in, copy, new_size, stride);
+                dft_512(copy, out);
+                stride_copy_out(out, copy, new_size, stride); )
       // ... manual C
       print_start(NAME, "manual-strided", input_size, stride, 0);
       RUN_TEST( dft_512_stride(in, out, stride); )
@@ -3469,12 +3468,11 @@ static void test(double *in, double *copy, double *out) {
          // original version, linear access
          print_start(NAME, "linear", input_size, stride, block);
          RUN_TEST( dft_512(in, out); )
-/* copy has horrible performance and dwarves the other results */
-//         // ... copy
-//         print_start(NAME, "copy-blockstrided", input_size, stride, block);
-//         RUN_TEST( blockstride_copy_in(in, copy, new_size, stride, block);
-//                   dft_512(copy, out);
-//                   blockstride_copy_out(out, copy, new_size, stride, block); )
+         // ... copy
+         print_start(NAME, "copy-blockstrided", input_size, stride, block);
+         RUN_TEST( blockstride_copy_in(in, copy, new_size, stride, block);
+                   dft_512(copy, out);
+                   blockstride_copy_out(out, copy, new_size, stride, block); )
          // ... manual C
          print_start(NAME, "manual-blockstrided", input_size, stride, block);
          RUN_TEST( dft_512_blockstride(in, out, stride, block); )

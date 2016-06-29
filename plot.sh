@@ -60,7 +60,8 @@ function round_y_max {
    echo -e "$max_one\n$max_two" | awk "${AWK_MAX}"
 }
 
-for file in output_filtered/*.csv; do
+PLOT_FILTER=""
+for file in output_filtered/*${PLOT_FILTER}*.csv; do
    OUTFILE="output_processed/${file#*/}"
    echo "[processing]: ${OUTFILE}"
 

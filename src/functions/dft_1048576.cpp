@@ -6496,7 +6496,10 @@ static void test(double *in, double *copy, double *out) {
       print_start(NAME, "linear", input_size, stride, 0);
       RUN_TEST( dft_1048576(in, out); )
       // ... copy
-      /* ... */
+      print_start(NAME, "copy-strided", input_size, stride, 0);
+      RUN_TEST( stride_copy_in(in, copy, new_size, stride);
+                dft_1048576(copy, out);
+                stride_copy_out(out, copy, new_size, stride); )
       // ... manual C
       print_start(NAME, "manual-strided", input_size, stride, 0);
       RUN_TEST( dft_1048576_stride(in, out, stride); )
@@ -6516,7 +6519,10 @@ static void test(double *in, double *copy, double *out) {
          print_start(NAME, "linear", input_size, stride, block);
          RUN_TEST( dft_1048576(in, out); )
          // ... copy
-         /* ... */
+         print_start(NAME, "copy-blockstrided", input_size, stride, block);
+         RUN_TEST( blockstride_copy_in(in, copy, new_size, stride, block);
+                   dft_1048576(copy, out);
+                   blockstride_copy_out(out, copy, new_size, stride, block); )
          // ... manual C
          print_start(NAME, "manual-blockstrided", input_size, stride, block);
          RUN_TEST( dft_1048576_blockstride(in, out, stride, block); )

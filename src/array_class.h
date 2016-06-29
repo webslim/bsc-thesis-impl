@@ -1,5 +1,7 @@
 /* Class(es) used for linear, strided and blockstrided input and output */
 
+#ifdef CLASS
+
 #ifndef ARRAY_CLASS_H
 #define ARRAY_CLASS_H
 
@@ -54,4 +56,4 @@ public:
 };
 
 #endif
-
+#endif
