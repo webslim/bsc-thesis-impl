@@ -14,7 +14,7 @@ public:
    virtual double& operator[](int i) {
       return array[i];
    }
-	ArrayAccess operator+(int offset) {
+	virtual ArrayAccess operator+(int offset) {
 		return ArrayAccess(array + offset);
 	}
 };
