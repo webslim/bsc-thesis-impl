@@ -30,7 +30,7 @@ public:
    double& operator[](int i) {
       return array[i*stride];
    }
-	ArrayAccess operator+(int offset) {
+	StridedArrayAccess operator+(int offset) {
 		return StridedArrayAccess(array + offset * stride, stride);
 	}
 };
@@ -46,7 +46,7 @@ public:
    double& operator[](int i) {
       return array[(i/block)*stride + i%block];
    }
-	ArrayAccess operator+(int offset) {
+	BlockStridedArrayAccess operator+(int offset) {
       return BlockStridedArrayAccess(
             array + (offset/block*stride + offset%block),
             stride, block);
