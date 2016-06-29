@@ -28,6 +28,10 @@ for func in src/functions/*${FUNCTION_FILTER}*.h; do
 		GCC_CMD="${GCC} -${flag} -o ${OUT}${func_name}-gcc-${flag} ${SRC} -include ${func}"
 		echo "${GCC_CMD}"
 		${GCC_CMD} &
+		if [ "$1" == "noclang" ]; then
+			wait
+			continue
+		fi
 		CLANG_CMD="${CLANG} -${flag} -o ${OUT}${func_name}-clang-${flag} ${SRC} -include ${func}"
 		echo "${CLANG_CMD}"
 		${CLANG_CMD} &
@@ -35,6 +39,6 @@ for func in src/functions/*${FUNCTION_FILTER}*.h; do
 	done
 done
 
-strip -v "${OUT}"*
+strip "${OUT}"*
 echo "all compilations done"
 
