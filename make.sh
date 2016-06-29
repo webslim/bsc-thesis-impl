@@ -10,7 +10,7 @@ rm -v bin/*
 #    this is the old way to let the program compute an average time.
 #    the script are now updated to support multiple separate runs.
 #    input is not randomized again when repeating.
-OPTS="-DCLASS -DREPETITIONS=5"
+OPTS="-DREPETITIONS=5"
 
 GCC="g++ -std=c++11 -Wall -Wno-uninitialized -march=native -g ${OPTS}"
 CLANG="clan${GCC}"
